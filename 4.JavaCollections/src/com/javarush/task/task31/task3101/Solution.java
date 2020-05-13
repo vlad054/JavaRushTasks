@@ -12,7 +12,7 @@ import java.util.List;
 Проход по дереву файлов
 */
 public class Solution {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         String path = args[0];
         String resultFileAbsolutePath = args[1];
         File file = new File(resultFileAbsolutePath);
@@ -34,21 +34,27 @@ public class Solution {
 
         //write in allFilesContent
         String line = System.getProperty("line.separator");
+        FileOutputStream fileOutputStream = new FileOutputStream(nFile);
+
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(nFile);
-            for (File f:lFileAll){
+
+//            FileOutputStream fileOutputStream = new FileOutputStream(nFile);
+
+            for (File f : lFileAll) {
                 FileInputStream fileInputStream = new FileInputStream(f);
                 int b;
-                while ((b=fileInputStream.read())!=-1){
+                while ((b = fileInputStream.read()) != -1) {
                     fileOutputStream.write(b);
                 }
                 fileInputStream.close();
                 fileOutputStream.write(line.getBytes());
             }
-            fileOutputStream.close();
+        }
+        catch (Exception e){
 
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }
+        finally {
+            fileOutputStream.close();
         }
 
     }
@@ -63,7 +69,7 @@ public class Solution {
                     getFiles(arFile[i], lFileAll,siz);
                 }
                 else {
-                    if ((arFile[i].length() <= siz) && (dir.getName()!="allFilesContent.txt")) {
+                    if ((arFile[i].length() <= siz) && (!arFile[i].getName().equals("allFilesContent.txt"))) {
                         lFileAll.add(arFile[i]);
                     }
                 }
